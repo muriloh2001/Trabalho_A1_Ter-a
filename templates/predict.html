@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predição do Modelo</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 500px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #555;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        select, input[type="number"], button {
+            font-size: 16px;
+            padding: 10px;
+            width: 100%;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+            font-size: 16px;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Acurácia do Modelo</h1>
+
+        {% if accuracy is not none %}
+            <p>Acurácia: {{ accuracy|round(2) }}%</p> <!-- Exibe a acurácia com 2 casas decimais -->
+            {% if plot_url %}
+                <h2>Importância das Características</h2>
+                <img src="{{ url_for('static', filename=plot_url) }}" alt="Importância das Características">
+            {% endif %}
+        {% else %}
+            <h2>Treinar Modelo</h2>
+            <form action="{{ url_for('predict', filename=filename) }}" method="post">
+                <label for="model_type">Tipo de Modelo:</label>
+                <select name="model_type" id="model_type">
+                    <option value="DecisionTree" selected>Árvore de Decisão</option>
+                    <!-- Você pode adicionar outros modelos conforme necessário -->
+                    <option value="RandomForest">Floresta Aleatória</option>
+                </select>
+
+                <label for="max_depth">Profundidade Máxima:</label>
+                <input type="number" name="max_depth" id="max_depth" value="5" min="1">
+
+                <button type="submit">Treinar Modelo</button>
+            </form>
+        {% endif %}
+
+        <br>
+        <a href="{{ url_for('upload_file') }}">Enviar outro arquivo</a> <!-- Link para enviar um novo arquivo -->
+
+        <!-- Botão para redirecionar para /retrain -->
+        <form action="{{ url_for('retrain') }}" method="POST">
+            <input type="hidden" name="filename" value="{{ filename }}"> <!-- Passa o nome do arquivo -->
+            <button type="submit">Reiniciar Treinamento</button>
+        </form>        
+    </div>
+</body>
+</html>
