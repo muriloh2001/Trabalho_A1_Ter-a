@@ -61,13 +61,13 @@ seaborn
 pandas
 joblib
 
-Rodando o Servidor Flask: Após instalar as dependências, execute o seguinte comando para rodar o servidor Flask:
-
-python app.py
-
+Rodando o Servidor Flask: Após instalar as dependências, execute o seguinte comando para rodar o servidor Flask `pip`: 
+   ```bash
+   pip install -r requirements.txt
+````
 Estrutura do Projeto
 A estrutura do projeto segue o padrão recomendado para aplicativos Flask:
-
+```bash
 project/
 │
 ├── app.py                 # Arquivo principal do Flask (ponto de entrada)
@@ -81,9 +81,14 @@ project/
 │   └── images/
 ├── requirements.txt       # Dependências do Python
 └── README.md              # Documentação do projeto
-
+````
 Arquivos principais:
 app.py: Contém as rotas e lógica principal do Flask. A aplicação lida com o upload de arquivos, treinamento de modelos e visualização dos resultados.
 models.py: Contém a lógica para treinar os modelos de machine learning (Árvore de Decisão, Floresta Aleatória, KNN, SVM).
 templates/: Diretório contendo os templates HTML para as páginas do aplicativo.
 static/images/: Diretório onde são salvos os gráficos gerados pela aplicação (ex: gráficos de importância das características).
+
+
+
+
+
