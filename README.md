@@ -11,8 +11,6 @@ Este projeto tem como objetivo treinar e re-treinar modelos de **machine learnin
 3. [Tecnologias Usadas](#tecnologias-usadas)
 4. [Como Rodar o Projeto](#como-rodar-o-projeto)
 5. [Estrutura do Projeto](#estrutura-do-projeto)
-6. [Contribuição](#contribuição)
-7. [Licença](#licença)
 
 ## Descrição
 
@@ -65,7 +63,7 @@ Rodando o Servidor Flask: Após instalar as dependências, execute o seguinte co
    ```bash
    pip install -r requirements.txt
 ````
-Estrutura do Projeto
+## Estrutura do Projeto
 A estrutura do projeto segue o padrão recomendado para aplicativos Flask:
 ```bash
 project/
@@ -83,10 +81,10 @@ project/
 └── README.md              # Documentação do projeto
 ````
 Arquivos principais:
-app.py: Contém as rotas e lógica principal do Flask. A aplicação lida com o upload de arquivos, treinamento de modelos e visualização dos resultados.
-models.py: Contém a lógica para treinar os modelos de machine learning (Árvore de Decisão, Floresta Aleatória, KNN, SVM).
-templates/: Diretório contendo os templates HTML para as páginas do aplicativo.
-static/images/: Diretório onde são salvos os gráficos gerados pela aplicação (ex: gráficos de importância das características).
+- **app.py**: Contém as rotas e lógica principal do Flask. A aplicação lida com o upload de arquivos, treinamento de modelos e visualização dos resultados.
+- **models.py**: Contém a lógica para treinar os modelos de machine learning (Árvore de Decisão, Floresta Aleatória, KNN, SVM).
+- **templates/**: Diretório contendo os templates HTML para as páginas do aplicativo.
+- **static/images/**: Diretório onde são salvos os gráficos gerados pela aplicação (ex: gráficos de importância das características).
 
 
 
