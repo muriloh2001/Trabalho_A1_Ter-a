@@ -83,16 +83,21 @@
             {% endif %}
         {% else %}
             <h2>Treinar Modelo</h2>
+            <!-- Formulário para Treinar o Modelo -->
             <form action="{{ url_for('predict', filename=filename) }}" method="post">
-                <label for="model_type">Tipo de Modelo:</label>
+                <label for="model_type">Escolha o Modelo:</label>
                 <select name="model_type" id="model_type">
                     <option value="DecisionTree" selected>Árvore de Decisão</option>
-                    <!-- Você pode adicionar outros modelos conforme necessário -->
                     <option value="RandomForest">Floresta Aleatória</option>
+                    <option value="KNN">K-Nearest Neighbors</option>
+                    <option value="SVM">Support Vector Machine</option>
                 </select>
 
                 <label for="max_depth">Profundidade Máxima:</label>
                 <input type="number" name="max_depth" id="max_depth" value="5" min="1">
+
+                <label for="n_estimators">Número de Estimadores (se RandomForest):</label>
+                <input type="number" name="n_estimators" id="n_estimators" value="100">
 
                 <button type="submit">Treinar Modelo</button>
             </form>
