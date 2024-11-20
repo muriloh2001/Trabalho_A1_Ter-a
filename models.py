@@ -6,8 +6,17 @@ from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
+from joblib import dump, load  # Substituindo custom_joblib por joblib
 
-from custom_joblib import save_model
+
+# Salvar o modelo treinado
+def save_model(model, filename):
+    dump(model, filename)
+
+
+# Carregar o modelo treinado
+def load_model(filename):
+    return load(filename)
 
 
 # Função para gerar gráficos com base nas colunas fornecidas
@@ -105,73 +114,63 @@ def generate_plots(data):
 
     return plots
 
+
 # Função para treinar o modelo e retornar a precisão e o gráfico de importância das características
 def train_model(data, model_type='DecisionTree', max_depth=5):
     if 'Age' in data.columns and 'Symptom Severity (1-10)' in data.columns and 'Diagnosis' in data.columns:
-        X = data[['Age', 'Symptom Severity (1-10)']]  # Exemplo de seleção de features
-        y = data['Diagnosis']  # Target
+        X = data[['Age', 'Symptom Severity (1-10)']]
+        y = data['Diagnosis']
 
-        # Divisão dos dados em treinamento e teste
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
-        # Treinamento do modelo com base no tipo selecionado
         if model_type == 'DecisionTree':
             model = DecisionTreeClassifier(max_depth=max_depth)
         elif model_type == 'RandomForest':
             model = RandomForestClassifier(max_depth=max_depth, n_estimators=100)
         else:
-            raise ValueError("Modelo não suportado: selecione um modelo válido.")
+            raise ValueError("Modelo não suportado.")
 
         model.fit(X_train, y_train)
-        predictions = model.predict(X_test)
-        accuracy = accuracy_score(y_test, predictions)
+        accuracy = accuracy_score(y_test, model.predict(X_test))
 
-        # Gráfico de importância das características (Barplot)
+        # Gráfico de importância
         plt.figure(figsize=(10, 6))
         if hasattr(model, 'feature_importances_'):
-            feature_importances = model.feature_importances_
-            sns.barplot(x=feature_importances, y=X.columns, palette='coolwarm')
+            sns.barplot(x=model.feature_importances_, y=X.columns, palette='coolwarm')
             plt.title('Importância das Características', fontsize=16)
             plt.xlabel('Importância', fontsize=12)
             plt.ylabel('Características', fontsize=12)
-            plot_path = 'static/images/feature_importance.png'  # Salvando o gráfico na pasta correta
+            plot_path = 'static/images/feature_importance.png'
             plt.savefig(plot_path)
-            plt.close()  # Fecha o gráfico atual para liberar memória
+            plt.close()
         else:
-            plot_path = None  # Caso o modelo não tenha 'feature_importances'
+            plot_path = None
 
         return accuracy, 'images/feature_importance.png' if plot_path else None
     else:
         raise ValueError("As colunas necessárias não foram encontradas no CSV.")
-    
+
 
 # Função para treinar/re-treinar o modelo
 def retrain_model(data, model_type='DecisionTree', max_depth=5, model_filename='model.pkl'):
-    # Verifica se as colunas necessárias estão presentes no DataFrame
     if 'Age' in data.columns and 'Symptom Severity (1-10)' in data.columns and 'Diagnosis' in data.columns:
-        X = data[['Age', 'Symptom Severity (1-10)']]  # Exemplo de seleção de features
-        y = data['Diagnosis']  # Target
+        X = data[['Age', 'Symptom Severity (1-10)']]
+        y = data['Diagnosis']
 
-        # Divisão dos dados em treinamento e teste
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
-        # Seleção do modelo a ser utilizado
         if model_type == 'DecisionTree':
             model = DecisionTreeClassifier(max_depth=max_depth)
         elif model_type == 'RandomForest':
             model = RandomForestClassifier(max_depth=max_depth, n_estimators=100)
         else:
-            raise ValueError("Modelo não suportado: selecione um modelo válido.")
+            raise ValueError("Modelo não suportado.")
 
-        # Treinamento do modelo
         model.fit(X_train, y_train)
-        predictions = model.predict(X_test)
-        accuracy = accuracy_score(y_test, predictions)
+        accuracy = accuracy_score(y_test, model.predict(X_test))
 
-        # Salva o modelo treinado
         save_model(model, model_filename)
-        
-        # Retorna a acurácia do modelo treinado
+
         return accuracy
     else:
         raise ValueError("As colunas necessárias não foram encontradas no CSV.")
