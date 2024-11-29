@@ -62,6 +62,7 @@ joblib
 Rodando o Servidor Flask: Após instalar as dependências, execute o seguinte comando para rodar o servidor Flask `pip`: 
    ```bash
    pip install -r requirements.txt
+   python app.py
 ````
 ## Estrutura do Projeto
 A estrutura do projeto segue o padrão recomendado para aplicativos Flask:
