@@ -1,5 +1,7 @@
 import os
 import pandas as pd
+import matplotlib
+matplotlib.use('Agg')  # Backend sem GUI para evitar problemas com threads
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.model_selection import train_test_split
